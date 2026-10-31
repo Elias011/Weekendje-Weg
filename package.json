@@ -1,0 +1,16 @@
+{
+  "name": "weekendje-weg",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Find weekend activities and Christmas markets in the Netherlands and calculate the budget.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && esbuild src/main.ts --bundle --target=es2020 --format=iife --outfile=dist/app.js",
+    "watch": "esbuild src/main.ts --bundle --target=es2020 --format=iife --outfile=dist/app.js --watch",
+    "serve": "npx --yes serve ."
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}
