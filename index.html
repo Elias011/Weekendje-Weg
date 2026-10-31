@@ -90,6 +90,51 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 .toast.on{opacity:1}
 .fab{display:none}
 @media(max-width:980px){.fab{display:block;position:fixed;right:14px;bottom:14px;z-index:8;box-shadow:0 6px 20px rgba(0,0,0,.25)}}
+/* tabs */
+.tabs{display:flex;gap:6px;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 16px;cursor:pointer;font-weight:700;font-size:14px}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab.x.on{background:var(--xr);border-color:var(--xr)}
+:root{--xr:#b3202e;--xg:#1f5e3b;--xbg:#fff7f2}
+.banner{display:flex;justify-content:space-between;align-items:center;gap:10px;background:linear-gradient(90deg,var(--xr),#7e1420);color:#fff;border-radius:var(--r);padding:12px 16px;margin-bottom:14px;cursor:pointer;font-size:14px}
+.banner b{font-family:Fraunces,serif;font-size:16px}
+/* christmas */
+.xhead{background:linear-gradient(135deg,var(--xg),#123d26);color:#fff;border-radius:var(--r);padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.xhead h2{font-size:24px}
+.xhead p{margin:4px 0 0;opacity:.85;font-size:14px}
+.xhead .snow{position:absolute;right:14px;top:8px;font-size:40px;opacity:.35}
+.wks{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.wkc{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:12px;padding:7px 11px;cursor:pointer;font-size:12.5px;text-align:center;line-height:1.25}
+.wkc b{display:block;font-size:13px}
+.wkc .n{font-size:11px;color:var(--xr);font-weight:700}
+.wkc.on{background:var(--xr);color:#fff;border-color:var(--xr)}
+.wkc.on .n{color:#ffd9dc}
+.tl{overflow-x:auto;margin-top:6px}
+.tl-in{position:relative;min-width:max-content}
+.tl-row{display:flex;align-items:center;height:26px;border-top:1px solid #f0f1f5;cursor:pointer}
+.tl-row:hover{background:#fafbfd}
+.tl-name{flex:0 0 190px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;position:sticky;left:0;background:inherit;background:#fff;z-index:2}
+.tl-track{position:relative;height:100%}
+.tl-bar{position:absolute;top:7px;height:12px;border-radius:6px;background:var(--xg)}
+.tl-bar.ind{background:repeating-linear-gradient(45deg,#8aa79a 0 4px,#a9c2b6 4px 8px)}
+.tl-wk{position:absolute;top:0;bottom:0;background:#f4f5f9}
+.tl-sel{position:absolute;top:0;bottom:0;background:rgba(179,32,46,.14);border-left:2px solid var(--xr);border-right:2px solid var(--xr);z-index:1;pointer-events:none}
+.tl-today{position:absolute;top:0;bottom:0;width:2px;background:var(--or);z-index:1}
+.tl-hd{display:flex;height:22px;font-size:10.5px;color:var(--ink2)}
+.tl-hd .tl-track span{position:absolute;top:4px;transform:translateX(-2px)}
+.mk{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--xr);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:7px}
+.mk.closed{opacity:.55}
+.mk .dates{font-weight:700;font-size:14px;color:var(--xg)}
+.mk .small{font-size:12.5px;color:var(--ink2)}
+.pill{font-size:11.5px;padding:2px 8px;border-radius:999px;font-weight:700;white-space:nowrap}
+.pill.open{background:#e6f4ec;color:var(--green)}.pill.soon{background:#fff3d6;color:#8a6100}.pill.ended{background:#eee;color:#777}
+.wkst{display:flex;gap:6px;font-size:12px}
+.wkst span{padding:2px 8px;border-radius:8px;background:#f4f5f9}
+.wkst .y{background:#e6f4ec;color:var(--green);font-weight:700}
+.wkst .n{background:#fdecea;color:var(--red)}
+.btn.xr{background:var(--xr);color:#fff}
+.legend{font-size:11.5px;color:var(--ink2);display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.legend i{display:inline-block;width:14px;height:8px;border-radius:4px;vertical-align:middle;margin-right:4px}
 textarea{width:100%;height:150px;font:12.5px/1.4 ui-monospace,monospace;border:1px solid var(--line);border-radius:10px;padding:8px}
 </style>
 </head>
@@ -102,6 +147,48 @@ textarea{width:100%;height:150px;font:12.5px/1.4 ui-monospace,monospace;border:1
 
 <div class="wrap">
 <main>
+  <div class="tabs">
+    <button class="tab on" data-v="all">🧭 All activities</button>
+    <button class="tab x" data-v="christmas">🎄 Christmas markets</button>
+  </div>
+
+  <section id="view-christmas" hidden>
+    <div class="xhead">
+      <span class="snow">❄️</span>
+      <h2>Christmas markets 2026</h2>
+      <p id="xsub">Pick a weekend to see which markets are open, then add them to your plan.</p>
+    </div>
+    <div class="panel" style="margin-bottom:14px">
+      <div class="meta" style="margin-bottom:6px"><b>Choose your weekend</b></div>
+      <div class="wks" id="wks"></div>
+    </div>
+    <div class="panel" style="margin-bottom:14px">
+      <div class="meta" style="margin-bottom:4px"><b>Season timeline</b> · start and end dates of every market</div>
+      <div class="tl"><div class="tl-in" id="tl"></div></div>
+      <div class="legend">
+        <span><i style="background:var(--xg)"></i>Open (dates confirmed)</span>
+        <span><i style="background:#a9c2b6"></i>Dates still indicative</span>
+        <span><i style="background:rgba(179,32,46,.25);border:1px solid var(--xr)"></i>Your weekend</span>
+        <span><i style="background:var(--or);width:3px"></i>Today</span>
+      </div>
+    </div>
+    <div class="panel filters">
+      <div class="row">
+        <label class="tog"><input type="checkbox" id="xOpen" checked> Only open on my weekend</label>
+        <label class="tog"><input type="checkbox" id="xIn"> Indoor / underground</label>
+        <label class="tog"><input type="checkbox" id="xFree"> Free entry</label>
+        <label style="flex-direction:row;align-items:center;gap:8px">Sort
+          <select id="xSort"><option value="date">By start date</option><option value="dist">Closest to home</option><option value="end">Ending soonest</option></select>
+        </label>
+      </div>
+    </div>
+    <p class="meta" id="xcount"></p>
+    <div class="grid" id="xgrid"></div>
+    <p class="note">Dates checked 31 Oct 2026 against organiser and tourism sites. Smaller markets can still change — always check before you travel.</p>
+  </section>
+
+  <section id="view-all">
+  <div class="banner" id="xbanner"></div>
   <div class="panel filters">
     <div class="row">
       <input type="text" id="q" placeholder="Search: museum, beach, windmills, Rotterdam…">
@@ -119,7 +206,7 @@ textarea{width:100%;height:150px;font:12.5px/1.4 ui-monospace,monospace;border:1
     </div>
     <div class="chips" id="cats"></div>
     <div class="row">
-      <label class="tog"><input type="checkbox" id="fOpen" checked> Available this month</label>
+      <label class="tog"><input type="checkbox" id="fOpen" checked> In season on my weekend</label>
       <label class="tog"><input type="checkbox" id="fIndoor"> Indoor only (rain plan ☔)</label>
       <label class="tog"><input type="checkbox" id="fKids"> Kid-friendly</label>
       <label class="tog"><input type="checkbox" id="fFree"> Free</label>
@@ -144,11 +231,15 @@ textarea{width:100%;height:150px;font:12.5px/1.4 ui-monospace,monospace;border:1
       </form>
     </details>
   </div>
+  </section>
 </main>
 
 <aside class="side" id="plan">
   <div class="panel">
     <h2>Your weekend</h2>
+    <label class="set" style="display:block;margin-bottom:10px"><span style="font-size:12.5px;color:var(--ink2)">Weekend of</span>
+      <select id="wk" style="width:100%;margin-top:4px"></select>
+    </label>
     <div class="day" id="day-sat"></div>
     <div class="day" id="day-sun"></div>
     <div class="btns">
@@ -220,7 +311,7 @@ const CITIES = {
   "Eindhoven":[51.4416,5.4697],"Groningen":[53.2194,6.5665],"Maastricht":[50.8514,5.6910],"Haarlem":[52.3874,4.6462],
   "Leiden":[52.1601,4.4970],"Delft":[52.0116,4.3571],"Arnhem":[51.9851,5.8987],"Nijmegen":[51.8126,5.8372],
   "Zwolle":[52.5168,6.0830],"Den Bosch":[51.6978,5.3037],"Breda":[51.5719,4.7683],"Tilburg":[51.5555,5.0913],
-  "Alkmaar":[52.6324,4.7534],"Amersfoort":[52.1561,5.3878],"Enschede":[52.2215,6.8937],"Almere":[52.3508,5.2647]
+  "Alkmaar":[52.6324,4.7534],"Deventer":[52.2557,6.1639],"Dordrecht":[51.8133,4.6690],"Gouda":[52.0115,4.7105],"Amersfoort":[52.1561,5.3878],"Enschede":[52.2215,6.8937],"Almere":[52.3508,5.2647]
 };
 const CATS = {museum:["🏛️","Museums"],outdoor:["🌳","Outdoors & nature"],family:["🎢","Family & parks"],sight:["📸","Sightseeing"],food:["🍺","Food & drink"],wellness:["🧖","Wellness"],seasonal:["✨","Seasonal events"]};
 // a = adult €, c = child € (null = adults only), d = hours, m = months open (null = all year), g = group pricing {p, size}
@@ -260,7 +351,6 @@ const ACTS = [
  {id:33,n:"Wadlopen (mudflat hiking)",city:"Pieterburen",ll:[53.4,6.45],cat:"outdoor",in:0,a:25,c:20,d:3.5,kid:1,m:[5,6,7,8,9],desc:"Guided walk across the Wadden Sea seabed at low tide. Kids 12+."},
  {id:34,n:"Groninger Museum",city:"Groningen",ll:[53.212,6.566],cat:"museum",in:1,a:17,c:5,d:2,kid:1,desc:"Wildly colourful museum building with modern art and design."},
  {id:35,n:"Maastricht caves (Grotten Noord)",city:"Maastricht",ll:[50.83,5.69],cat:"sight",in:1,a:9.5,c:7,d:1,kid:1,desc:"Guided walk through centuries-old marl tunnels under Mount Saint Peter."},
- {id:36,n:"Valkenburg Christmas market in the caves",city:"Valkenburg",ll:[50.865,5.832],cat:"seasonal",in:1,a:12,c:8,d:3,kid:1,m:[11,12],desc:"Underground Christmas market in the Gemeentegrot and Fluweelengrot."},
  {id:37,n:"Amsterdam Light Festival cruise",city:"Amsterdam",ll:[52.37,4.9],cat:"seasonal",in:1,a:25,c:15,d:1.25,kid:1,m:[11,12,1],desc:"Light artworks along the canals, late Nov to mid-Jan."},
  {id:38,n:"Thermae 2000 spa day",city:"Valkenburg",ll:[50.86,5.84],cat:"wellness",in:1,a:45,c:null,d:5,kid:0,desc:"Thermal baths and saunas on a hill top. 16+ in the sauna area."},
  {id:39,n:"Biesbosch National Park boat tour",city:"Drimmelen",ll:[51.706,4.803],cat:"outdoor",in:0,a:15,c:9,d:2.5,kid:1,desc:"Freshwater tidal wetlands with beavers and sea eagles."},
@@ -269,7 +359,99 @@ const ACTS = [
  {id:42,n:"Walibi Holland",city:"Biddinghuizen",ll:[52.44,5.758],cat:"family",in:0,a:40,c:40,d:7,kid:1,m:[4,5,6,7,8,9,10],desc:"Roller coasters and thrill rides; Fright Nights in October."},
  {id:43,n:"Winter ice skating rink",city:"Utrecht",ll:[52.09,5.12],cat:"seasonal",in:0,a:10,c:8,d:1.5,kid:1,m:[11,12,1,2],desc:"Pop-up city ice rinks appear in most big cities in winter. Skate rental incl."}
 ];
-const MONTH = new Date().getMonth()+1;
+// ---------- Christmas markets 2026 (dates checked 31 Oct 2026) ----------
+// start/end = open every day in between (minus `closed`); `days` = only these dates. a/c = adult/child € (null = not published). ind = dates still indicative.
+const MARKETS = [
+ {id:1,n:"Kerstmarkt Gemeentegrot",city:"Valkenburg",ll:[50.8636,5.8312],start:"2026-11-13",end:"2026-12-30",closed:["2026-12-25"],in:1,a:11.3,c:6.8,d:1.5,
+  hrs:"Mon–Fri 11:00–19:00 · Sat–Sun 10:00–19:00",price:"€11.30 Fri–Sun, €9.30 Mon–Thu (online) · kids 5–11 €6.80 · 0–4 free with ticket",
+  desc:"Europe's largest underground Christmas market, in the marl tunnels under the Cauberg. Book a timeslot online — weekends sell out first."},
+ {id:2,n:"Kerstmarkt Fluweelengrot",city:"Valkenburg",ll:[50.8653,5.8295],start:"2026-11-13",end:"2026-12-30",closed:["2026-12-25"],in:1,a:10,c:7,est:1,d:1.5,
+  hrs:"Daily, approx. 10:00/11:00–19:00",price:"About €10 adult (estimate) · combi ticket with the castle ruin online",
+  desc:"Smaller cave market under the castle ruin, with a North Pole theme and an 18th-century underground chapel."},
+ {id:3,n:"Kerststad Valkenburg (town & parade)",city:"Valkenburg",ll:[50.865,5.832],start:"2026-11-13",end:"2027-01-03",in:0,a:0,c:0,d:3,
+  hrs:"Town centre all day · parade on selected evenings",price:"Free (cave markets & attractions paid separately)",
+  desc:"The whole town becomes a Christmas town: lights, Santa's village and the free Landal Christmas Parade."},
+ {id:4,n:"Magisch Maastricht Vrijthof",city:"Maastricht",ll:[50.8486,5.6889],start:"2026-11-27",end:"2026-12-27",in:0,a:0,c:0,d:3,
+  hrs:"Day and evening",price:"Free entry · ice rink & rides paid",
+  desc:"Christmas market, ice rink, Ferris wheel and Alpine huts on Maastricht's most beautiful square."},
+ {id:5,n:"Royal Christmas Fair",city:"Den Haag",ll:[52.0817,4.3147],start:"2026-12-03",end:"2026-12-23",in:0,a:0,c:0,d:2.5,
+  hrs:"Daily 12:00–21:00",price:"Free",
+  desc:"About 100 chalets on the stately Lange Voorhout, with fires, choirs, storytellers and Santa."},
+ {id:6,n:"Kerstmarkt Haarlem",city:"Haarlem",ll:[52.3812,4.6364],start:"2026-12-11",end:"2026-12-13",in:0,a:0,c:0,d:3,
+  hrs:"Fri–Sat 10:30–20:00 · Sun 10:30–19:00",price:"Free",
+  desc:"Nearly 350 stalls across 12 spots in the old centre, around the Grote Markt and St. Bavo church."},
+ {id:7,n:"Dickens Festijn",city:"Deventer",ll:[52.2513,6.1590],start:"2026-12-12",end:"2026-12-13",in:0,a:7.75,c:7.75,d:3,
+  hrs:"10:00–17:00 · timeslot required",price:"€7.50 online + €0.25 fee · under 7 free",
+  desc:"Hundreds of costumed characters bring Dickens' 19th-century England to life in the Bergkwartier. Expect queues."},
+ {id:8,n:"Dordtse Decembermarkt",city:"Dordrecht",ll:[51.8133,4.6690],start:"2026-12-10",end:"2026-12-13",in:0,a:0,c:0,d:2.5,
+  hrs:"Part of the Dordtse Decemberdagen (10 Dec – 3 Jan)",price:"Free",
+  desc:"Christmas market in the historic centre, with a winter square and skating during the Decemberdagen."},
+ {id:9,n:"Nostalgische Kerstmarkt Leiden",city:"Leiden",ll:[52.1583,4.4931],days:["2026-12-11","2026-12-12","2026-12-13","2026-12-17","2026-12-18","2026-12-19","2026-12-20"],in:0,a:0,c:0,d:2,
+  hrs:"Two long weekends",price:"Free",
+  desc:"Nostalgic market along Leiden's canals, spread over two long weekends."},
+ {id:10,n:"Kerstmarkt Vesting Bourtange",city:"Bourtange",ll:[53.0071,7.1917],days:["2026-12-05","2026-12-06","2026-12-12","2026-12-13","2026-12-19","2026-12-20"],in:0,a:null,c:0,d:3,
+  hrs:"Sat 11:00–21:00 · Sun 11:00–18:00",price:"Paid entry (see website) · kids 0–5 free · free parking",
+  desc:"Christmas market inside a star-shaped 16th-century fortress village near the German border."},
+ {id:11,n:"Gouda bij Kaarslicht + Winterfair",city:"Gouda",ll:[52.0115,4.7105],start:"2026-12-11",end:"2026-12-12",in:0,a:0,c:0,d:3,
+  hrs:"Fri 11:00–22:00 (candle-lit evening) · Sat 10:00–17:00",price:"Free",
+  desc:"The market square lit only by candles and a giant Christmas tree, plus a winter fair the next day."},
+ {id:12,n:"Kerstmarkt Arnhem",city:"Arnhem",ll:[51.9851,5.8987],start:"2026-12-13",end:"2026-12-13",in:0,a:0,c:0,d:2.5,
+  hrs:"Sunday",price:"Free",desc:"One-day Christmas market in Arnhem's city centre."},
+ {id:13,n:"Zweedse Kerstmarkt",city:"Groningen",ll:[53.2194,6.5665],start:"2026-12-12",end:"2026-12-13",in:1,a:null,c:0,d:2,
+  hrs:"Sat & Sun",price:"See website",desc:"Indoor Swedish-style Christmas market — no cold or rain, with a carrousel, train and Santa for kids."},
+ {id:14,n:"Kerstmarkt Thorn",city:"Thorn",ll:[51.1617,5.8417],start:"2026-12-13",end:"2026-12-13",in:0,a:0,c:0,d:2.5,
+  hrs:"Sunday",price:"Free",desc:"Christmas market in 'the white village' of Limburg, among whitewashed historic houses."},
+ {id:15,n:"Kerstmarkten Zeist",city:"Zeist",ll:[52.0894,5.2332],days:["2026-12-13","2026-12-20"],in:0,a:null,c:0,d:2,
+  hrs:"Sundays",price:"See website",desc:"Two Sunday Christmas markets (after the Sinterfair on 29 Nov)."},
+ {id:16,n:"Christmas Village Amsterdam",city:"Amsterdam",ll:[52.37,4.89],start:"2026-12-03",end:"2026-12-27",in:0,a:null,c:0,d:2,
+  hrs:"Daily",price:"See website",desc:"Christmas village with chalets and winter food & drinks in Amsterdam."},
+ {id:17,n:"Het Amsterdamse Winterparadijs",city:"Amsterdam (RAI)",ll:[52.3416,4.8900],start:"2026-12-17",end:"2027-01-02",ind:1,in:1,a:18.5,c:18.5,est:1,d:4,
+  hrs:"Timeslot entry, stay as long as you like",price:"From €18.50 · price varies per timeslot",
+  desc:"55,000 m² winter event at the RAI: skating, cross-country skiing, shows and an après-ski village. Dates still indicative."},
+ {id:18,n:"Dickensfestijn Drunen",city:"Drunen",ll:[51.686,5.13],start:"2026-12-19",end:"2026-12-20",in:0,a:null,c:0,d:2.5,
+  hrs:"Sat & Sun",price:"See website",desc:"Smaller Dickens-themed Christmas festival in Brabant."},
+ {id:19,n:"Kerstmarkt Eext",city:"Eext",ll:[53.0175,6.7333],start:"2026-12-19",end:"2026-12-20",in:0,a:null,c:0,d:2.5,
+  hrs:"Sat & Sun",price:"See website",desc:"Village Christmas market in Drenthe."}
+];
+
+// ---------- date helpers ----------
+const pad = n => String(n).padStart(2,"0");
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const addDays = (s,n) => { const d=parse(s); d.setDate(d.getDate()+n); return iso(d); };
+const dayDiff = (a,b) => Math.round((parse(b)-parse(a))/864e5);
+const TODAY = iso(new Date());
+const fmtD = (s,o={weekday:"short",day:"numeric",month:"short"}) => parse(s).toLocaleDateString("en-GB",o);
+function mDays(m){
+  if(m._days) return m._days;
+  let out=[];
+  if(m.days) out=m.days.slice();
+  else for(let s=m.start; s<=m.end; s=addDays(s,1)) if(!(m.closed||[]).includes(s)) out.push(s);
+  return m._days=out;
+}
+const openOn = (m,s) => mDays(m).includes(s);
+function segs(m){ const ds=mDays(m), out=[]; ds.forEach(d=>{ const l=out[out.length-1]; if(l && addDays(l[1],1)===d) l[1]=d; else out.push([d,d]); }); return out; }
+function rangeText(m){
+  const S=(a,b)=> a===b ? fmtD(a,{weekday:"short",day:"numeric",month:"short"}) : `${fmtD(a,{day:"numeric",month:"short"})} – ${fmtD(b,{day:"numeric",month:"short",year: a.slice(0,4)!==b.slice(0,4)?"numeric":undefined})}`;
+  if(m.days) return segs(m).map(([a,b])=>S(a,b)).join(" & ");
+  return S(m.start,m.end) + (m.closed?` (closed ${m.closed.map(c=>fmtD(c,{day:"numeric",month:"short"})).join(", ")})`:"");
+}
+function mStatus(m){
+  const ds=mDays(m), first=ds[0], last=ds[ds.length-1];
+  if(TODAY>last) return ["ended","Ended"];
+  if(TODAY<first){ const n=dayDiff(TODAY,first); return ["soon", n===1?"Opens tomorrow":`Opens in ${n} days`]; }
+  const left=dayDiff(TODAY,last);
+  if(openOn(m,TODAY)) return ["open", left<=6 ? `Open now · last ${left+1} day${left?"s":""}` : "Open now"];
+  return ["soon","Next open "+fmtD(ds.find(d=>d>TODAY))];
+}
+function weekendList(){
+  const t=parse(TODAY), dow=t.getDay();
+  const sat=new Date(t); sat.setDate(t.getDate()+(dow===0?-1:6-dow));
+  const out=[]; for(let i=0;i<11;i++){ out.push(iso(sat)); sat.setDate(sat.getDate()+7); } return out;
+}
+const WEEKENDS = weekendList();
+const openOnWeekend = (m,sat) => openOn(m,sat)||openOn(m,addDays(sat,1));
+const satISO = () => $("wk").value || WEEKENDS[0];
 const $ = id => document.getElementById(id);
 const eur = v => "€" + (Math.round(v*100)/100).toLocaleString("nl-NL",{minimumFractionDigits: v%1?2:0, maximumFractionDigits:2});
 
@@ -289,7 +471,8 @@ $("cats").onclick = e => { const b=e.target.closest(".chip"); if(!b) return; sta
 // --- distance helpers
 function hav(a,b){ const R=6371,r=Math.PI/180; const dLa=(b[0]-a[0])*r,dLo=(b[1]-a[1])*r; const x=Math.sin(dLa/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dLo/2)**2; return 2*R*Math.asin(Math.sqrt(x))*1.3; }
 const homeLL = () => CITIES[$("home").value];
-const isOpen = a => !a.m || a.m.includes(MONTH);
+const wkMonths = () => { const s=satISO(); return [parse(s).getMonth()+1, parse(addDays(s,1)).getMonth()+1]; };
+const isOpen = a => !a.m || wkMonths().some(x=>a.m.includes(x));
 
 function priceFor(a, adults, kids){
   if(a.g) return Math.ceil((adults+kids)/a.g.size)*a.g.p;
@@ -325,7 +508,7 @@ function render(){
   $("grid").innerHTML = list.length ? list.map(a=>{
     const tags=[`${a.d} h`, a.in?"Indoor":"Outdoor", `~${Math.round(a._km)} km`];
     let extra="";
-    if(a.m) extra += `<span class="tag ${isOpen(a)?"ok":"warn"}">${isOpen(a)?"In season now":"Out of season"}</span>`;
+    if(a.m) extra += `<span class="tag ${isOpen(a)?"ok":"warn"}">${isOpen(a)?"In season":"Out of season"}</span>`;
     if(a.c==null) extra += `<span class="tag warn">Adults only</span>`;
     return `<article class="act">
       <div class="top"><div><h3>${a.n}</h3><div class="city">📍 ${a.city}</div></div><span class="ico">${CATS[a.cat][0]}</span></div>
@@ -341,13 +524,95 @@ function render(){
     </article>`;}).join("") : `<div class="panel empty">Nothing matches — try removing a filter.</div>`;
 }
 
+// ---------- Christmas view ----------
+function addMarket(id, day){
+  const m=MARKETS.find(x=>x.id===id);
+  state.plan[day].push({uid:state.uid++, ref:null, mk:id, n:m.n, city:m.city, ll:m.ll, a:m.a==null?0:m.a, c:m.c==null?0:m.c, g:null, d:m.d, unk:m.a==null});
+  toast(`🎄 Added “${m.n}” to ${day==="sat"?"Saturday":"Sunday"}`);
+  update(); renderX(); render();
+}
+function setWeekend(s){ $("wk").value=s; update(); render(); renderX(); }
+
+function renderX(){
+  const sat=satISO(), sun=addDays(sat,1), h=homeLL();
+  // weekend chips
+  $("wks").innerHTML = WEEKENDS.map(s=>{
+    const n=MARKETS.filter(m=>openOnWeekend(m,s)).length;
+    return `<button class="wkc ${s===sat?"on":""}" onclick="setWeekend('${s}')"><b>${fmtD(s,{day:"numeric",month:"short"})}–${fmtD(addDays(s,1),{day:"numeric",month:"short"})}</b><span class="n">${n?`🎄 ${n} market${n>1?"s":""}`:"—"}</span></button>`;
+  }).join("");
+  const nOpen = MARKETS.filter(m=>openOnWeekend(m,sat)).length;
+  $("xsub").textContent = `Weekend of ${fmtD(sat,{weekday:"long",day:"numeric",month:"long"})}: ${nOpen} of ${MARKETS.length} markets open.`;
+
+  // timeline
+  const all = MARKETS.slice().sort((a,b)=>mDays(a)[0].localeCompare(mDays(b)[0]));
+  const t0 = all.reduce((x,m)=>mDays(m)[0]<x?mDays(m)[0]:x, "9999"), t1 = all.reduce((x,m)=>{const l=mDays(m).at(-1); return l>x?l:x;}, "0000");
+  const W=14, N=dayDiff(t0,t1)+1, X=s=>dayDiff(t0,s)*W;
+  let bg="";
+  for(let i=0;i<N;i++){ const d=parse(addDays(t0,i)); if(d.getDay()===6) bg+=`<div class="tl-wk" style="left:${i*W}px;width:${2*W}px"></div>`; }
+  const selL = X(sat), sel = (selL>-2*W && selL<N*W) ? `<div class="tl-sel" style="left:${selL}px;width:${2*W}px"></div>` : "";
+  const today = TODAY>=t0 && TODAY<=t1 ? `<div class="tl-today" style="left:${X(TODAY)+W/2}px"></div>` : "";
+  let hd=""; for(let i=0;i<N;i++){ const s=addDays(t0,i), d=parse(s); if(d.getDay()===6 || d.getDate()===1) hd+=`<span style="left:${i*W}px">${d.getDate()===1||i===0?fmtD(s,{day:"numeric",month:"short"}):d.getDate()}</span>`; }
+  $("tl").innerHTML = `<div class="tl-hd"><div class="tl-name"></div><div class="tl-track" style="width:${N*W}px">${hd}</div></div>` +
+    all.map(m=>`<div class="tl-row" onclick="document.getElementById('mk${m.id}')?.scrollIntoView({behavior:'smooth',block:'center'})" title="${m.n}: ${rangeText(m)}">
+      <div class="tl-name">${m.n} <span style="color:var(--ink2)">· ${m.city}</span></div>
+      <div class="tl-track" style="width:${N*W}px">${bg}${sel}${today}${segs(m).map(([a,b])=>`<div class="tl-bar ${m.ind?"ind":""}" style="left:${X(a)+1}px;width:${(dayDiff(a,b)+1)*W-2}px"></div>`).join("")}</div>
+    </div>`).join("");
+
+  // cards
+  let list = MARKETS.filter(m=>{
+    if($("xOpen").checked && !openOnWeekend(m,sat)) return false;
+    if($("xIn").checked && !m.in) return false;
+    if($("xFree").checked && m.a!==0) return false;
+    return true;
+  });
+  list.forEach(m=>m._km=hav(h,m.ll));
+  const s=$("xSort").value;
+  list.sort((x,y)=> s==="dist"?x._km-y._km : s==="end"? mDays(x).at(-1).localeCompare(mDays(y).at(-1)) : mDays(x)[0].localeCompare(mDays(y)[0]));
+  const inPlan = new Set([...state.plan.sat,...state.plan.sun].map(p=>p.mk).filter(Boolean));
+  $("xcount").textContent = `${list.length} market${list.length===1?"":"s"}${$("xOpen").checked?` open on ${fmtD(sat,{day:"numeric",month:"short"})}–${fmtD(sun,{day:"numeric",month:"short"})}`:""} · distances from ${$("home").value}`;
+  $("xgrid").innerHTML = list.length ? list.map(m=>{
+    const [cls,txt]=mStatus(m), oS=openOn(m,sat), oU=openOn(m,sun);
+    return `<article class="mk ${cls==="ended"?"closed":""}" id="mk${m.id}">
+      <div class="top" style="display:flex;justify-content:space-between;gap:8px;align-items:start">
+        <div><h3 style="font-size:17px;font-weight:600;line-height:1.2">${m.n}</h3><div class="city">📍 ${m.city} · ~${Math.round(m._km)} km</div></div>
+        <span class="pill ${cls}">${txt}</span>
+      </div>
+      <div class="dates">📅 ${rangeText(m)}${m.ind?' <span class="tag warn">indicative</span>':''}</div>
+      <div class="small">🕒 ${m.hrs}</div>
+      <div class="desc">${m.desc}</div>
+      <div class="tags"><span class="tag">${m.in?"Indoor / underground":"Outdoor"}</span><span class="tag">~${m.d} h visit</span>${m.a===0?'<span class="tag ok">Free entry</span>':''}</div>
+      <div class="small">🎟️ ${m.price}</div>
+      <div class="wkst"><span class="${oS?"y":"n"}">Sat ${fmtD(sat,{day:"numeric",month:"short"})} ${oS?"✓":"✕"}</span><span class="${oU?"y":"n"}">Sun ${fmtD(sun,{day:"numeric",month:"short"})} ${oU?"✓":"✕"}</span></div>
+      <div class="btns">
+        <button class="btn xr sm" ${oS?"":"disabled title='Closed on this Saturday'"} onclick="addMarket(${m.id},'sat')">+ Saturday</button>
+        <button class="btn g sm" ${oU?"":"disabled title='Closed on this Sunday'"} onclick="addMarket(${m.id},'sun')">+ Sunday</button>
+        ${inPlan.has(m.id)?'<span class="tag ok" style="align-self:center">✓ in plan</span>':''}
+      </div>
+      <a class="lnk" href="https://www.google.com/search?q=${encodeURIComponent(m.n+" "+m.city+" 2026")}" target="_blank" rel="noopener">Official info & tickets ↗</a>
+    </article>`;}).join("")
+    : `<div class="panel empty">No Christmas markets open on this weekend${parse(sat)<parse(MARKETS.map(m=>mDays(m)[0]).sort()[0])?" yet — the season starts "+fmtD(MARKETS.map(m=>mDays(m)[0]).sort()[0],{weekday:"long",day:"numeric",month:"long"})+". Pick a later weekend above.":"."}</div>`;
+  // banner on the other view
+  const nextOpen = MARKETS.filter(m=>openOnWeekend(m,sat)).length;
+  $("xbanner").innerHTML = `<span><b>🎄 Christmas market season</b><br>${nextOpen ? `${nextOpen} market${nextOpen>1?"s":""} open on your chosen weekend` : `Season runs ${fmtD("2026-11-13",{day:"numeric",month:"short"})} – ${fmtD("2027-01-03",{day:"numeric",month:"short"})}, see all start & end dates`}</span><span>View markets →</span>`;
+}
+
+function showView(v){
+  const x = v==="christmas";
+  $("view-christmas").hidden=!x; $("view-all").hidden=x;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on", t.dataset.v===(x?"christmas":"all")));
+  try{ if(x) history.replaceState(null,"","#christmas"); else history.replaceState(null,"",location.pathname+location.search); }catch(e){ try{ location.hash = x?"christmas":""; }catch(_){} }
+}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{ showView(t.dataset.v); window.scrollTo({top:0,behavior:"smooth"}); });
+$("xbanner").onclick=()=>{ showView("christmas"); window.scrollTo({top:0,behavior:"smooth"}); };
+window.addEventListener("hashchange",()=>showView(location.hash==="#christmas"?"christmas":"all"));
+
 function addAct(id, day){
   const a=ACTS.find(x=>x.id===id);
   state.plan[day].push({uid:state.uid++, ref:id, n:a.n, city:a.city, ll:a.ll, a:a.a, c:a.c, g:a.g||null, d:a.d});
   toast(`Added “${a.n}” to ${day==="sat"?"Saturday":"Sunday"}`);
   update(); render();
 }
-function removeItem(day, uid){ state.plan[day]=state.plan[day].filter(p=>p.uid!==uid); update(); render(); }
+function removeItem(day, uid){ state.plan[day]=state.plan[day].filter(p=>p.uid!==uid); update(); render(); renderX(); }
 function editItem(day, uid, field, val){ const p=state.plan[day].find(x=>x.uid===uid); if(!p) return; if(field==="g") p.g.p=+val||0; else p[field]=val===""?0:+val; update(false); }
 function moveItem(day, uid){ const o=day==="sat"?"sun":"sat"; const p=state.plan[day].find(x=>x.uid===uid); state.plan[day]=state.plan[day].filter(x=>x.uid!==uid); state.plan[o].push(p); update(); }
 
@@ -358,7 +623,7 @@ $("custom").onsubmit = e => {
   $("cName").value=""; toast("Custom activity added"); update();
 };
 
-function readSettings(){ const o={}; ["adults","kids","home","mode","fuel","cons","park","food","stay","buffer","target"].forEach(k=>o[k]=$(k).value); o.offpeak=$("offpeak").checked; return o; }
+function readSettings(){ const o={}; ["wk","adults","kids","home","mode","fuel","cons","park","food","stay","buffer","target"].forEach(k=>o[k]=$(k).value); o.offpeak=$("offpeak").checked; return o; }
 function writeSettings(o){ Object.entries(o).forEach(([k,v])=>{ if(k==="offpeak") $("offpeak").checked=v; else if($(k)) $(k).value=v; }); }
 
 function trainFare(km){ let f = km<=40 ? 2.6+0.26*km : 13+0.17*(km-40); return Math.min(f,30); } // single, 2nd class estimate
@@ -412,12 +677,18 @@ function calc(){
   return {A,K,P,tickets,transport,food,lodging,extras,total:sub+extras,km,nDays,adultsOnlyWarn,overnightIgnored: overnight && !(days.sat.length&&days.sun.length) && active.length};
 }
 
+function itemWarn(p, date){
+  if(p.mk){ const m=MARKETS.find(x=>x.id===p.mk); if(m && !openOn(m,date)) return `<span class="tag warn">Closed on ${fmtD(date,{day:"numeric",month:"short"})} · open ${rangeText(m)}</span>`; }
+  if(p.ref){ const a=ACTS.find(x=>x.id===p.ref); if(a && a.m && !a.m.includes(parse(date).getMonth()+1)) return `<span class="tag warn">Out of season on this date</span>`; }
+  return "";
+}
 function dayHTML(day){
   const items=state.plan[day], label=day==="sat"?"Saturday":"Sunday";
+  const date = day==="sat" ? satISO() : addDays(satISO(),1);
   const hrs=items.reduce((s,p)=>s+(p.d||0),0);
-  return `<h4><span>${label}</span><span>${items.length?hrs+" h"+(hrs>10?" ⚠️ busy!":""):""}</span></h4>` + (items.length ? items.map(p=>`
+  return `<h4><span>${label} ${fmtD(date,{day:"numeric",month:"short"})}</span><span>${items.length?hrs+" h"+(hrs>10?" ⚠️ busy!":""):""}</span></h4>` + (items.length ? items.map(p=>`
     <div class="item">
-      <div><div class="nm">${p.n}</div><div class="city">${p.city}</div></div>
+      <div><div class="nm">${p.mk?"🎄 ":""}${p.n}</div><div class="city">${p.city}</div>${itemWarn(p,date)}${p.unk?'<span class="tag warn">Entry price not published — enter it below</span>':''}</div>
       <div><button class="x" title="Move to ${day==="sat"?"Sunday":"Saturday"}" onclick="moveItem('${day}',${p.uid})">⇄</button><button class="x" title="Remove" onclick="removeItem('${day}',${p.uid})">×</button></div>
       <div class="ed">${p.g
         ? `€ per boat <input type="number" min="0" step="1" value="${p.g.p}" oninput="editItem('${day}',${p.uid},'g',this.value)"> (≤${p.g.size} people)`
@@ -449,8 +720,8 @@ function update(rerenderPlan=true){
 }
 
 function planText(){
-  const r=calc(); const L=[`🇳🇱 Weekend plan (${r.A} adults${r.K?`, ${r.K} kids`:""}, from ${$("home").value})`,""];
-  for(const d of ["sat","sun"]){ if(!state.plan[d].length) continue; L.push(d==="sat"?"SATURDAY":"SUNDAY"); state.plan[d].forEach(p=>L.push(`• ${p.n} (${p.city}) – ${eur(priceFor(p,r.A,r.K))}`)); L.push(""); }
+  const r=calc(); const L=[`🇳🇱 Weekend plan ${fmtD(satISO(),{day:"numeric",month:"short"})}–${fmtD(addDays(satISO(),1),{day:"numeric",month:"short",year:"numeric"})} (${r.A} adults${r.K?`, ${r.K} kids`:""}, from ${$("home").value})`,""];
+  for(const d of ["sat","sun"]){ if(!state.plan[d].length) continue; L.push((d==="sat"?"SATURDAY ":"SUNDAY ")+fmtD(d==="sat"?satISO():addDays(satISO(),1),{day:"numeric",month:"short"})); state.plan[d].forEach(p=>L.push(`• ${p.n} (${p.city}) – ${eur(priceFor(p,r.A,r.K))}`)); L.push(""); }
   L.push(`Tickets ${eur(Math.round(r.tickets))} | Transport ${eur(Math.round(r.transport))} | Food ${eur(Math.round(r.food))} | Stay ${eur(Math.round(r.lodging))} | Buffer ${eur(Math.round(r.extras))}`);
   L.push(`TOTAL ≈ ${eur(Math.round(r.total))} (${eur(Math.round(r.total/r.P))} pp)`);
   return L.join("\n");
@@ -460,16 +731,23 @@ $("copy").onclick = async () => {
   try{ await navigator.clipboard.writeText(txt); toast("Plan copied to clipboard"); }
   catch(e){ const p=$("day-sun"); let ta=document.getElementById("cpy"); if(!ta){ ta=document.createElement("textarea"); ta.id="cpy"; p.after(ta);} ta.value=txt; ta.select(); toast("Select & copy the text below"); }
 };
-$("clear").onclick = () => { state.plan={sat:[],sun:[]}; update(); render(); };
+$("clear").onclick = () => { state.plan={sat:[],sun:[]}; update(); render(); renderX(); };
 $("fab").onclick = () => $("plan").scrollIntoView({behavior:"smooth"});
 
 function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),1800); }
 
 ["q","fCity","sort","fOpen","fIndoor","fKids","fFree","fMax"].forEach(id=>$(id).addEventListener("input",render));
 ["adults","kids","mode","offpeak","fuel","cons","park","food","stay","buffer","target"].forEach(id=>$(id).addEventListener("input",()=>update(false)));
-$("home").addEventListener("input",()=>{ update(false); render(); });
+$("home").addEventListener("input",()=>{ update(false); render(); renderX(); });
+["xOpen","xIn","xFree","xSort"].forEach(id=>$(id).addEventListener("input",renderX));
+$("wk").addEventListener("input",()=>{ update(); render(); renderX(); });
 
-load(); update(); render();
+$("wk").innerHTML = WEEKENDS.map(s=>{ const n=MARKETS.filter(m=>openOnWeekend(m,s)).length;
+  return `<option value="${s}">${fmtD(s,{weekday:"short",day:"numeric",month:"short"})} – ${fmtD(addDays(s,1),{weekday:"short",day:"numeric",month:"short"})}${n?` · 🎄 ${n} markets`:""}</option>`; }).join("");
+load();
+if(!WEEKENDS.includes($("wk").value)) $("wk").value = WEEKENDS[0];
+update(); render(); renderX();
+showView(location.hash==="#christmas"?"christmas":"all");
 </script>
 </body>
 </html>
